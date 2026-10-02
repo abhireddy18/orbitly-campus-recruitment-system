@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/student_dashboard_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="22dp"
+        android:paddingTop="34dp"
+        android:paddingEnd="22dp"
+        android:paddingBottom="28dp">
+
+        <TextView
+            style="@style/SectionLabel"
+            android:layout_width="wrap_content"
+            android:text="STUDENT PORTAL" />
+
+        <TextView
+            android:id="@+id/tvWelcome"
+            style="@style/ScreenTitle"
+            android:layout_marginTop="8dp"
+            android:text="Welcome Student" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="28dp"
+            android:text="Your next opportunity starts here."
+            android:textColor="@color/text_secondary"
+            android:textSize="15sp" />
+
+        <TextView
+            style="@style/SectionLabel"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="8dp"
+            android:text="CAREER TOOLS" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSearchJob"
+            style="@style/DashboardButtonStyle"
+            android:text="Search Job"
+            app:backgroundTint="@color/brand_teal"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSavedJobs"
+            style="@style/DashboardSecondaryButtonStyle"
+            android:text="Saved Jobs"
+            android:textColor="@color/brand_teal"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnApplyJob"
+            style="@style/DashboardSecondaryButtonStyle"
+            android:text="Apply for Jobs"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTrackStatus"
+            style="@style/DashboardSecondaryButtonStyle"
+            android:text="Track Application Status"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTrackInterview"
+            style="@style/DashboardSecondaryButtonStyle"
+            android:text="Track Interview Status"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStudentFeedback"
+            style="@style/DashboardSecondaryButtonStyle"
+            android:text="Provide Feedback"
+            android:textColor="@color/brand_coral"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLogout"
+            style="@style/DashboardSecondaryButtonStyle"
+            android:layout_marginTop="24dp"
+            android:text="Logout"
+            android:textColor="@color/brand_coral"
+            app:cornerRadius="12dp" />
+    </LinearLayout>
+</ScrollView>

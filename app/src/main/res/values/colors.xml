@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FFF2F6EF</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="purple_500">#FFB7E65B</color>
+    <color name="teal_700">#FF9BC842</color>
+    <color name="red">#FFFB846F</color>
+    <color name="green">#FFB7E65B</color>
+    <color name="blue">#FF79A9FF</color>
+    <color name="yellow">#FFC8F477</color>
+    <color name="orange">#FFFB846F</color>
+    <color name="grey">#FFA2AEA5</color>
+    <color name="pink">#FFFF69B4</color>
+    <color name="brown">#FF795548</color>
+    <color name="cyan">#FF00BCD4</color>
+    <color name="lime">#FFB7E65B</color>
+    <color name="background_light">#FF101512</color>
+    <color name="material_on_surface_variant">#FFA2AEA5</color>
+    <color name="brand_ink">#FF1B221E</color>
+    <color name="brand_teal">#FFB7E65B</color>
+    <color name="brand_teal_dark">#FFA5D94C</color>
+    <color name="brand_lime">#FFC8F477</color>
+    <color name="brand_coral">#FFFB846F</color>
+    <color name="surface_card">#FF1B221E</color>
+    <color name="surface_variant">#FF252E29</color>
+    <color name="text_primary">#FFF2F6EF</color>
+    <color name="text_secondary">#FFA2AEA5</color>
+    <color name="line_subtle">#FF39443D</color>
+</resources>

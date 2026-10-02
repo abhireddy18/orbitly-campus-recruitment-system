@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRS | Visual direction options</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      color-scheme: light;
+      --canvas: #eef2ef;
+      --ink: #17221f;
+      --muted: #64716d;
+      --rule: #d5ded9;
+      --surface: #ffffff;
+      --font-body: "DM Sans", "Segoe UI", sans-serif;
+      --font-display: "Manrope", "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font-family: var(--font-body);
+    }
+
+    .page {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: 40px 34px 56px;
+    }
+
+    header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow, .option-index, .phone-label {
+      margin: 0;
+      color: #586760;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 8px 0 8px;
+      font-family: var(--font-display);
+      font-size: 34px;
+      line-height: 1.12;
+      font-weight: 800;
+    }
+
+    .intro {
+      max-width: 680px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .selection-status {
+      flex: 0 0 auto;
+      min-width: 190px;
+      padding: 12px 15px;
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      background: rgba(255,255,255,.65);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .selection-status span { color: #136f61; }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .option {
+      --accent: #146f62;
+      --accent-2: #dd7457;
+      --phone-bg: #f5f7f3;
+      --phone-surface: #ffffff;
+      --phone-ink: #172b27;
+      --phone-muted: #68746f;
+      --phone-rule: #e2e7e2;
+      display: grid;
+      grid-template-columns: minmax(205px, 1fr) minmax(220px, 270px);
+      align-items: center;
+      gap: 18px;
+      min-width: 0;
+      padding: 22px;
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      background: var(--surface);
+      transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+    }
+
+    .option.selected {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 18%, transparent), 0 12px 28px rgba(23,34,31,.09);
+      transform: translateY(-2px);
+    }
+
+    .option[data-theme="orbit"] {
+      --accent: #a5d942;
+      --accent-2: #51c1bd;
+      --phone-bg: #151918;
+      --phone-surface: #222a27;
+      --phone-ink: #f3f7ef;
+      --phone-muted: #9da9a2;
+      --phone-rule: #35403a;
+    }
+
+    .option[data-theme="cadence"] {
+      --accent: #2947cb;
+      --accent-2: #fa7458;
+      --phone-bg: #f5f6fc;
+      --phone-surface: #ffffff;
+      --phone-ink: #20294a;
+      --phone-muted: #727a91;
+      --phone-rule: #e0e4f0;
+    }
+
+    .option[data-theme="commons"] {
+      --accent: #bc4c3d;
+      --accent-2: #75b89a;
+      --phone-bg: #f5f7f2;
+      --phone-surface: #ffffff;
+      --phone-ink: #30382f;
+      --phone-muted: #777e72;
+      --phone-rule: #e3e7dd;
+    }
+
+    .details { min-width: 0; }
+
+    .option-index { color: var(--accent); }
+
+    h2 {
+      margin: 8px 0 7px;
+      font-family: var(--font-display);
+      font-size: 21px;
+      line-height: 1.2;
+      font-weight: 800;
+    }
+
+    .concept {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .identity {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin: 18px 0 15px;
+    }
+
+    .logo-tile {
+      display: grid;
+      width: 54px;
+      height: 54px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 15px;
+      color: var(--logo-ink, #fff);
+      background: var(--accent);
+      box-shadow: 0 5px 14px rgba(20,40,35,.15);
+    }
+
+    .logo-tile svg { width: 33px; height: 33px; }
+    .option[data-theme="orbit"] .logo-tile { --logo-ink: #172016; border-radius: 50%; }
+    .option[data-theme="cadence"] .logo-tile { border-radius: 11px; }
+    .option[data-theme="commons"] .logo-tile { border-radius: 18px 18px 8px 18px; }
+
+    .identity-name { font-size: 13px; font-weight: 800; }
+    .identity-caption { margin-top: 3px; color: var(--muted); font-size: 11px; }
+
+    .swatches { display: flex; gap: 7px; margin: 0 0 19px; }
+    .swatch {
+      width: 21px;
+      height: 21px;
+      border: 1px solid rgba(18,30,26,.12);
+      border-radius: 50%;
+      background: var(--swatch);
+    }
+
+    .traits {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-height: 48px;
+      margin-bottom: 18px;
+    }
+
+    .trait {
+      height: fit-content;
+      padding: 6px 8px;
+      border: 1px solid #e0e6e1;
+      border-radius: 6px;
+      color: #46534d;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .select-button {
+      width: 100%;
+      min-height: 44px;
+      border: 0;
+      border-radius: 9px;
+      color: #fff;
+      background: #20332d;
+      font: 700 13px var(--font-body);
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease;
+    }
+
+    .option.selected .select-button { color: #13251f; background: var(--accent); }
+    .select-button:focus-visible { outline: 3px solid #1f8171; outline-offset: 3px; }
+
+    .phone-wrap { display: flex; justify-content: center; }
+
+    .phone {
+      width: 100%;
+      max-width: 258px;
+      height: 454px;
+      overflow: hidden;
+      border: 7px solid #18211e;
+      border-radius: 31px;
+      color: var(--phone-ink);
+      background: var(--phone-bg);
+      box-shadow: 0 15px 27px rgba(14,26,21,.18);
+      font-family: var(--font-body);
+    }
+
+    .phone-top {
+      display: flex;
+      height: 24px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 13px 0;
+      color: var(--phone-ink);
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .phone-content { padding: 12px 13px 0; }
+
+    .phone-brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .phone-brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mini-mark {
+      display: grid;
+      width: 22px;
+      height: 22px;
+      place-items: center;
+      border-radius: 7px;
+      color: var(--logo-ink, #fff);
+      background: var(--accent);
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .avatar {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--phone-ink);
+      background: color-mix(in srgb, var(--accent) 22%, var(--phone-surface));
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .search-pill {
+      display: flex;
+      height: 30px;
+      align-items: center;
+      gap: 7px;
+      padding: 0 10px;
+      border: 1px solid var(--phone-rule);
+      border-radius: 8px;
+      color: var(--phone-muted);
+      background: var(--phone-surface);
+      font-size: 8px;
+    }
+
+    .search-symbol {
+      width: 9px;
+      height: 9px;
+      border: 1.4px solid currentColor;
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .search-symbol::after {
+      position: absolute;
+      right: -4px;
+      bottom: -2px;
+      width: 4px;
+      border-top: 1.4px solid currentColor;
+      content: "";
+      transform: rotate(45deg);
+    }
+
+    .welcome {
+      margin: 13px 0 3px;
+      font-family: var(--font-display);
+      font-size: 18px;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .welcome-sub { color: var(--phone-muted); font-size: 8px; }
+
+    .feature-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 105px;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 10px;
+      color: var(--feature-ink, #fff);
+      background: var(--feature-bg, var(--accent));
+    }
+
+    .feature-kicker { font-size: 7px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; opacity: .85; }
+    .feature-title { max-width: 150px; margin-top: 8px; font-size: 13px; line-height: 1.2; font-weight: 800; }
+    .feature-copy { margin-top: 5px; font-size: 7px; opacity: .85; }
+    .feature-chip { display: inline-block; margin-top: 9px; padding: 5px 8px; border-radius: 5px; color: #17302a; background: #fff; font-size: 7px; font-weight: 800; }
+
+    .section-row { display: flex; align-items: center; justify-content: space-between; margin: 14px 0 8px; }
+    .section-title { font-size: 10px; font-weight: 800; }
+    .section-more { color: var(--accent); font-size: 7px; font-weight: 800; }
+
+    .job-card {
+      margin-bottom: 7px;
+      padding: 9px;
+      border: 1px solid var(--phone-rule);
+      border-radius: 8px;
+      background: var(--phone-surface);
+    }
+
+    .job-top { display: flex; align-items: center; gap: 7px; }
+    .company-mark {
+      display: grid;
+      width: 24px;
+      height: 24px;
+      flex: 0 0 auto;
+      place-items: center;
+      border-radius: 6px;
+      color: #fff;
+      background: var(--company, #425f57);
+      font-size: 8px;
+      font-weight: 800;
+    }
+
+    .job-name { font-size: 8px; font-weight: 800; }
+    .job-company { margin-top: 2px; color: var(--phone-muted); font-size: 7px; }
+    .job-detail { margin-top: 7px; color: var(--phone-muted); font-size: 7px; }
+    .tag-row { display: flex; gap: 4px; margin-top: 6px; }
+    .tag { padding: 4px 5px; border-radius: 4px; color: var(--phone-muted); background: var(--phone-bg); font-size: 6px; }
+    .feed-note { margin-top: 7px; color: var(--phone-muted); font-size: 7px; }
+
+    .phone-nav {
+      display: flex;
+      height: 39px;
+      align-items: center;
+      justify-content: space-around;
+      margin-top: 8px;
+      border-top: 1px solid var(--phone-rule);
+      background: var(--phone-surface);
+    }
+
+    .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--phone-muted); font-size: 6px; }
+    .nav-item.active { color: var(--accent); font-weight: 800; }
+    .nav-glyph { width: 9px; height: 9px; border: 1.2px solid currentColor; border-radius: 3px; }
+    .nav-item.active .nav-glyph { background: color-mix(in srgb, var(--accent) 20%, transparent); }
+
+    .option[data-theme="orbit"] .select-button { color: #172016; }
+    .option[data-theme="orbit"] .phone { border-color: #343e38; }
+    .option[data-theme="orbit"] .mini-mark { --logo-ink: #172016; }
+    .option[data-theme="orbit"] .feature-card { --feature-bg: #a5d942; --feature-ink: #172016; }
+    .option[data-theme="cadence"] .feature-card { --feature-bg: #2947cb; }
+    .option[data-theme="cadence"] .feature-chip { color: #fff; background: #fa7458; }
+    .option[data-theme="commons"] .feature-card { --feature-bg: #bc4c3d; }
+    .option[data-theme="commons"] .feature-chip { color: #18372e; background: #c3e1cb; }
+
+    .bottom-note { margin: 18px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    @media (max-width: 1100px) {
+      .options { grid-template-columns: 1fr; }
+      .option { grid-template-columns: minmax(0, 1fr) minmax(220px, 270px); }
+    }
+
+    @media (max-width: 860px) {
+      .page { padding: 26px 18px 40px; }
+      header { align-items: start; flex-direction: column; }
+      .selection-status { min-width: 0; }
+      .option { grid-template-columns: minmax(0, 1fr) minmax(190px, 230px); padding: 16px; gap: 12px; }
+      .phone { height: 420px; }
+    }
+
+    @media (max-width: 620px) {
+      .options { grid-template-columns: 1fr; }
+      .option { grid-template-columns: minmax(0, 1fr) minmax(170px, 215px); padding: 14px; gap: 10px; }
+      h1 { font-size: 29px; }
+      h2 { font-size: 19px; }
+      .phone { height: 405px; border-width: 6px; }
+    }
+
+    @media (max-width: 420px) {
+      .option { grid-template-columns: minmax(0, 1fr) minmax(145px, 175px); padding: 11px; gap: 8px; }
+      .phone { height: 380px; border-radius: 25px; }
+      .traits { min-height: 65px; }
+      .identity { gap: 8px; }
+      .logo-tile { width: 46px; height: 46px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div>
+        <p class="eyebrow">Campus Recruitment System / Visual directions</p>
+        <h1>Choose a direction</h1>
+        <p class="intro">Four distinct CRS identities, each shown as a launcher mark and a student career-feed screen. Select one to mark your preference; the production app stays unchanged until you choose.</p>
+      </div>
+      <div class="selection-status" aria-live="polite">Selected: <span id="selection-label">None yet</span></div>
+    </header>
+
+    <section class="options" aria-label="Visual design options">
+      <article class="option" data-theme="meridian" data-name="Meridian">
+        <div class="details">
+          <p class="option-index">Option 01 / Meridian</p>
+          <h2>Grounded momentum</h2>
+          <p class="concept">A calm, confident campus network. Editorial headlines, clear opportunity cards, and a warm human accent.</p>
+          <div class="identity">
+            <div class="logo-tile" aria-label="Meridian CRS logo concept">
+              <svg viewBox="0 0 40 40" role="img" aria-label="Path rising through an open frame">
+                <path d="M9 30V10h8v12l14-13v9L17 31H9Z" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" />
+                <path d="M24 9h8v8" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" />
+              </svg>
+            </div>
+            <div><div class="identity-name">CRS / Meridian</div><div class="identity-caption">Open path mark</div></div>
+          </div>
+          <div class="swatches" aria-label="Deep teal, coral, lime, light green">
+            <span class="swatch" style="--swatch:#146f62"></span><span class="swatch" style="--swatch:#dd7457"></span><span class="swatch" style="--swatch:#dce982"></span><span class="swatch" style="--swatch:#f5f7f3"></span>
+          </div>
+          <div class="traits"><span class="trait">Trustworthy</span><span class="trait">Editorial</span><span class="trait">Light mode</span></div>
+          <button class="select-button" type="button" aria-pressed="false">Choose Meridian</button>
+        </div>
+        <div class="phone-wrap"><div class="phone">
+          <div class="phone-top"><span>9:41</span><span>5G &nbsp; 100%</span></div>
+          <div class="phone-content">
+            <div class="phone-brand"><span class="phone-brand-mark"><span class="mini-mark">M</span> meridian</span><span class="avatar">AS</span></div>
+            <div class="search-pill"><span class="search-symbol"></span> Job title, company or skill</div>
+            <div class="welcome">Good morning, Ananya</div><div class="welcome-sub">Make your next move count.</div>
+            <div class="feature-card"><div class="feature-kicker">Your next chapter</div><div class="feature-title">A role that gets where you want to go.</div><div class="feature-copy">New campus roles picked for you</div><span class="feature-chip">Explore roles</span></div>
+            <div class="section-row"><span class="section-title">For your profile</span><span class="section-more">See all</span></div>
+            <div class="job-card"><div class="job-top"><span class="company-mark" style="--company:#df7657">N</span><div><div class="job-name">Graduate Software Engineer</div><div class="job-company">Northstar Labs / Hyderabad</div></div></div><div class="job-detail">Posted 2h ago / 18 applicants</div><div class="tag-row"><span class="tag">Java</span><span class="tag">Entry level</span><span class="tag">Hybrid</span></div></div>
+            <div class="job-card"><div class="job-top"><span class="company-mark" style="--company:#397c6e">F</span><div><div class="job-name">Product Design Intern</div><div class="job-company">Fieldwork / Bengaluru</div></div></div><div class="job-detail">Campus role / Apply by Oct 18</div></div>
+          </div>
+          <div class="phone-nav"><span class="nav-item active"><i class="nav-glyph"></i>Home</span><span class="nav-item"><i class="nav-glyph"></i>Jobs</span><span class="nav-item"><i class="nav-glyph"></i>Saved</span><span class="nav-item"><i class="nav-glyph"></i>Profile</span></div>
+        </div></div>
+      </article>
+
+      <article class="option" data-theme="orbit" data-name="Orbit">
+        <div class="details">
+          <p class="option-index">Option 02 / Orbit</p>
+          <h2>Focused ambition</h2>
+          <p class="concept">A high-contrast professional feed for frequent use. Strong hierarchy with a sharp, optimistic signal color.</p>
+          <div class="identity">
+            <div class="logo-tile" aria-label="Orbit CRS logo concept"><svg viewBox="0 0 40 40" role="img" aria-label="Three connected career nodes"><circle cx="20" cy="9" r="4" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="10" cy="29" r="4" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="30" cy="29" r="4" fill="none" stroke="currentColor" stroke-width="3"/><path d="m18 13-6 12m10-12 6 12M14 29h12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+            <div><div class="identity-name">CRS / Orbit</div><div class="identity-caption">Network node mark</div></div>
+          </div>
+          <div class="swatches" aria-label="Graphite, lime, mint, dark surface">
+            <span class="swatch" style="--swatch:#151918"></span><span class="swatch" style="--swatch:#a5d942"></span><span class="swatch" style="--swatch:#51c1bd"></span><span class="swatch" style="--swatch:#222a27"></span>
+          </div>
+          <div class="traits"><span class="trait">High contrast</span><span class="trait">Fast scanning</span><span class="trait">Dark mode</span></div>
+          <button class="select-button" type="button" aria-pressed="false">Choose Orbit</button>
+        </div>
+        <div class="phone-wrap"><div class="phone">
+          <div class="phone-top"><span>9:41</span><span>5G &nbsp; 100%</span></div>
+          <div class="phone-content">
+            <div class="phone-brand"><span class="phone-brand-mark"><span class="mini-mark">O</span> ORBIT</span><span class="avatar">AS</span></div>
+            <div class="search-pill"><span class="search-symbol"></span> Search jobs, companies, people</div>
+            <div class="welcome">Your career, in motion.</div><div class="welcome-sub">Good morning, Ananya.</div>
+            <div class="feature-card"><div class="feature-kicker">Picked for you / 04 new</div><div class="feature-title">Your next opportunity is closer than you think.</div><div class="feature-copy">Matches your skills and interests</div><span class="feature-chip">View matches</span></div>
+            <div class="section-row"><span class="section-title">Trending on campus</span><span class="section-more">View all</span></div>
+            <div class="job-card"><div class="job-top"><span class="company-mark" style="--company:#4c8c78">A</span><div><div class="job-name">Associate Product Analyst</div><div class="job-company">Atlas / 3.8 km away</div></div></div><div class="job-detail">Full time / 26 students applied</div><div class="tag-row"><span class="tag">Analytics</span><span class="tag">Graduate</span></div></div>
+            <div class="job-card"><div class="job-top"><span class="company-mark" style="--company:#8269bf">V</span><div><div class="job-name">Junior UX Researcher</div><div class="job-company">Vista / Remote</div></div></div><div class="job-detail">Posted today / Early career</div></div>
+          </div>
+          <div class="phone-nav"><span class="nav-item active"><i class="nav-glyph"></i>Feed</span><span class="nav-item"><i class="nav-glyph"></i>Jobs</span><span class="nav-item"><i class="nav-glyph"></i>Network</span><span class="nav-item"><i class="nav-glyph"></i>You</span></div>
+        </div></div>
+      </article>
+
+      <article class="option" data-theme="cadence" data-name="Cadence">
+        <div class="details">
+          <p class="option-index">Option 03 / Cadence</p>
+          <h2>Bright and capable</h2>
+          <p class="concept">A crisp, modern system that feels familiar and energetic. Blue gives structure; coral marks the next action.</p>
+          <div class="identity">
+            <div class="logo-tile" aria-label="Cadence CRS logo concept"><svg viewBox="0 0 40 40" role="img" aria-label="Forward-moving C monogram"><path d="M29 12a13 13 0 1 0 0 16" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><path d="M23 20h10m-5-5 5 5-5 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><div class="identity-name">CRS / Cadence</div><div class="identity-caption">Forward C monogram</div></div>
+          </div>
+          <div class="swatches" aria-label="Cobalt, coral, pale blue, white">
+            <span class="swatch" style="--swatch:#2947cb"></span><span class="swatch" style="--swatch:#fa7458"></span><span class="swatch" style="--swatch:#cbd6ff"></span><span class="swatch" style="--swatch:#f5f6fc"></span>
+          </div>
+          <div class="traits"><span class="trait">Confident</span><span class="trait">Approachable</span><span class="trait">Light mode</span></div>
+          <button class="select-button" type="button" aria-pressed="false">Choose Cadence</button>
+        </div>
+        <div class="phone-wrap"><div class="phone">
+          <div class="phone-top"><span>9:41</span><span>5G &nbsp; 100%</span></div>
+          <div class="phone-content">
+            <div class="phone-brand"><span class="phone-brand-mark"><span class="mini-mark">C</span> cadence</span><span class="avatar">AS</span></div>
+            <div class="search-pill"><span class="search-symbol"></span> Search your next opportunity</div>
+            <div class="welcome">Make room for what's next.</div><div class="welcome-sub">Ananya, your weekly career brief.</div>
+            <div class="feature-card"><div class="feature-kicker">Career brief / Week 41</div><div class="feature-title">12 new roles fit your profile this week.</div><div class="feature-copy">Three close matches in software</div><span class="feature-chip">See your brief</span></div>
+            <div class="section-row"><span class="section-title">Recommended for you</span><span class="section-more">All jobs</span></div>
+            <div class="job-card"><div class="job-top"><span class="company-mark" style="--company:#2947cb">P</span><div><div class="job-name">Graduate Cloud Engineer</div><div class="job-company">Parallax / Pune</div></div></div><div class="job-detail">New / Strong skill match</div><div class="tag-row"><span class="tag">Cloud</span><span class="tag">Java</span><span class="tag">Entry level</span></div></div>
+            <div class="job-card"><div class="job-top"><span class="company-mark" style="--company:#d86750">L</span><div><div class="job-name">Business Analyst Trainee</div><div class="job-company">Lumen / Chennai</div></div></div><div class="job-detail">Full time / Apply by Oct 24</div></div>
+          </div>
+          <div class="phone-nav"><span class="nav-item active"><i class="nav-glyph"></i>Home</span><span class="nav-item"><i class="nav-glyph"></i>Explore</span><span class="nav-item"><i class="nav-glyph"></i>Saved</span><span class="nav-item"><i class="nav-glyph"></i>Profile</span></div>
+        </div></div>
+      </article>
+
+      <article class="option" data-theme="commons" data-name="Commons">
+        <div class="details">
+          <p class="option-index">Option 04 / Commons</p>
+          <h2>Human connection</h2>
+          <p class="concept">A welcoming campus community with a distinct, friendly logo. Opportunity discovery sits alongside people and events.</p>
+          <div class="identity">
+            <div class="logo-tile" aria-label="Commons CRS logo concept"><svg viewBox="0 0 40 40" role="img" aria-label="Three people connected in a circle"><circle cx="20" cy="13" r="4" fill="none" stroke="currentColor" stroke-width="2.8"/><circle cx="10" cy="25" r="3.5" fill="none" stroke="currentColor" stroke-width="2.8"/><circle cx="30" cy="25" r="3.5" fill="none" stroke="currentColor" stroke-width="2.8"/><path d="M13 32c1-5 4-7 7-7s6 2 7 7M6 33c.5-4 2-6 4-6m24 6c-.5-4-2-6-4-6" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/></svg></div>
+            <div><div class="identity-name">CRS / Commons</div><div class="identity-caption">Campus connections mark</div></div>
+          </div>
+          <div class="swatches" aria-label="Brick coral, leaf green, ink, light gray-green">
+            <span class="swatch" style="--swatch:#bc4c3d"></span><span class="swatch" style="--swatch:#75b89a"></span><span class="swatch" style="--swatch:#30382f"></span><span class="swatch" style="--swatch:#f5f7f2"></span>
+          </div>
+          <div class="traits"><span class="trait">Community-led</span><span class="trait">Friendly</span><span class="trait">Light mode</span></div>
+          <button class="select-button" type="button" aria-pressed="false">Choose Commons</button>
+        </div>
+        <div class="phone-wrap"><div class="phone">
+          <div class="phone-top"><span>9:41</span><span>5G &nbsp; 100%</span></div>
+          <div class="phone-content">
+            <div class="phone-brand"><span class="phone-brand-mark"><span class="mini-mark">C</span> commons</span><span class="avatar">AS</span></div>
+            <div class="search-pill"><span class="search-symbol"></span> Find roles, people and events</div>
+            <div class="welcome">Good things start here.</div><div class="welcome-sub">A campus full of possibilities.</div>
+            <div class="feature-card"><div class="feature-kicker">Your campus / This week</div><div class="feature-title">Meet the teams looking for your kind of talent.</div><div class="feature-copy">Roles, people and campus events</div><span class="feature-chip">Explore campus</span></div>
+            <div class="section-row"><span class="section-title">Open opportunities</span><span class="section-more">Browse</span></div>
+            <div class="job-card"><div class="job-top"><span class="company-mark" style="--company:#537d66">G</span><div><div class="job-name">Software Developer I</div><div class="job-company">Greenline / Hyderabad</div></div></div><div class="job-detail">Campus hiring / 2 mutual connections</div><div class="tag-row"><span class="tag">Java</span><span class="tag">Graduate</span></div></div>
+            <div class="job-card"><div class="job-top"><span class="company-mark" style="--company:#bc4c3d">S</span><div><div class="job-name">People Operations Intern</div><div class="job-company">Sidecar / Bengaluru</div></div></div><div class="job-detail">Posted yesterday / Internship</div></div>
+          </div>
+          <div class="phone-nav"><span class="nav-item active"><i class="nav-glyph"></i>Campus</span><span class="nav-item"><i class="nav-glyph"></i>Jobs</span><span class="nav-item"><i class="nav-glyph"></i>People</span><span class="nav-item"><i class="nav-glyph"></i>Profile</span></div>
+        </div></div>
+      </article>
+    </section>
+
+    <p class="bottom-note">These are design concepts, not live data. The final app can retain the existing Firebase job and application data flows while adopting the chosen visual identity.</p>
+  </main>
+  <script>
+    const options = [...document.querySelectorAll(".option")];
+    const label = document.getElementById("selection-label");
+    const storedChoice = localStorage.getItem("crs-design-choice");
+
+    function selectOption(option) {
+      for (const card of options) {
+        const selected = card === option;
+        card.classList.toggle("selected", selected);
+        card.querySelector(".select-button").setAttribute("aria-pressed", String(selected));
+        card.querySelector(".select-button").textContent = selected
+          ? "Selected: " + card.dataset.name
+          : "Choose " + card.dataset.name;
+      }
+      label.textContent = option.dataset.name;
+      localStorage.setItem("crs-design-choice", option.dataset.name);
+    }
+
+    for (const option of options) {
+      option.querySelector(".select-button").addEventListener("click", () => selectOption(option));
+    }
+
+    if (storedChoice) {
+      const savedOption = options.find(option => option.dataset.name === storedChoice);
+      if (savedOption) selectOption(savedOption);
+    }
+  </script>
+</body>
+</html>

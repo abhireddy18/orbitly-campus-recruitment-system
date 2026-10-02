@@ -1,0 +1,24 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.CRS2025" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/brand_teal</item>
+        <item name="colorOnPrimary">@color/brand_ink</item>
+        <item name="colorSecondary">@color/brand_coral</item>
+        <item name="colorOnSecondary">@color/brand_ink</item>
+        <item name="colorTertiary">@color/brand_lime</item>
+        <item name="colorOnTertiary">@color/brand_ink</item>
+        <item name="android:colorAccent">@color/brand_teal</item>
+        <item name="android:windowBackground">@color/background_light</item>
+        <item name="android:colorBackground">@color/background_light</item>
+        <item name="colorOnBackground">@color/text_primary</item>
+        <item name="colorSurface">@color/surface_card</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="android:statusBarColor">@color/background_light</item>
+        <item name="android:navigationBarColor">@color/background_light</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Theme.CRS2025" parent="Base.Theme.CRS2025" />
+</resources>
