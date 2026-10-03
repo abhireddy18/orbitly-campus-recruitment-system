@@ -51,6 +51,7 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference("users").child("companies").child(companyId);
 
         tvWelcome = findViewById(R.id.tvWelcome);
+        Button btnGeminiAi = findViewById(R.id.btnGeminiAi);
         btnPostJob = findViewById(R.id.btnPostJob);
         btnReviewApplications = findViewById(R.id.btnReviewApplications);
         btnScheduleInterview = findViewById(R.id.btnScheduleInterview);
@@ -58,6 +59,10 @@ public class CompanyDashboardActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
 
         loadCompanyName();
+
+        if (btnGeminiAi != null) {
+            btnGeminiAi.setOnClickListener(v -> startActivity(new Intent(CompanyDashboardActivity.this, com.example.crs2025.activities.GeminiAiAssistantActivity.class)));
+        }
 
         // Post Job button functionality
         btnPostJob.setOnClickListener(v -> {

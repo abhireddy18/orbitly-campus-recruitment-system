@@ -1,98 +1,79 @@
-# 🎓 Orbitly - Campus Recruitment System
+# 🎓 Campus App - Campus Recruitment System
 
-Orbitly is a comprehensive Android application designed to streamline the campus recruitment process. It bridges the gap between students, employers, and university administrators by providing a centralized platform for job discovery, application tracking, interview scheduling, and feedback management.
+**Campus App** is a next-generation Android application designed to streamline campus recruitment. Featuring **Gemini 1.5 Flash AI** integration and **Interactive 3D Card Animations**, it bridges students, top hiring companies, and university administrators on a modern platform.
 
-## 🌟 Key Features
+---
+
+## 📲 Direct App Download
+
+Anyone can download and install the app directly on an Android device (API 24+):
+
+👉 **[Download CampusApp.apk](./CampusApp.apk)**
+
+---
+
+## 🌟 Key Features & AI Innovations
+
+### 🤖 Powered by Gemini AI (`Gemini 1.5 Flash`)
+- **📄 AI Resume Analyzer & ATS Score Optimizer**: Scans student skills and project summaries, delivering instant ATS match scores, identified strengths, and actionable improvement tips.
+- **🎯 AI Mock Interview Practice**: Generates high-frequency technical interview questions and model answer strategies tailored to specific job roles and companies.
+- **✉️ AI Cover Letter Generator**: Creates personalized, professional application letters for campus placement roles.
+- **💡 AI Career Coach**: Interactive guidance for campus job preparation, interviews, and application strategy.
+
+### ✨ Interactive 3D Visuals & Animations
+- **3D Touch Tilt Perspective**: Touch and drag hero cards to tilt them in 3D spatial coordinate space with real-time perspective depth (`ThreeDCardHelper`).
+- **3D Card Flip Transitions**: Smooth 180-degree 3D axis flip animations when generating AI insights or flipping content cards.
+- **3D Floating Breathing Animation**: Dynamic subtle floating motion for hero dashboard elements.
 
 ### 🧑‍🎓 For Students
-- **Job Discovery**: Browse and search for the latest job openings posted by companies.
-- **Easy Application**: Apply for jobs with a single click using registered profiles.
-- **Application Tracking**: Monitor the status of submitted applications in real-time.
-- **Interview Scheduling**: View upcoming interview dates, times, and details.
-- **Saved Jobs**: Bookmark interesting opportunities to apply for later.
-- **Feedback System**: Receive and view feedback from companies after interviews.
+- **Job Search & Discovery**: Filter and search live job openings posted by top recruiters.
+- **1-Click Application & Tracking**: Apply with built-in profiles and track application progress in real-time.
+- **Interview Tracker**: Keep track of scheduled interview dates, times, venues, and types.
+- **Bookmarks**: Save preferred jobs for quick access later.
 
 ### 🏢 For Employers (Companies)
-- **Job Posting**: Create, edit, and manage job openings with detailed requirements.
-- **Application Review**: Browse through all student applications and filter candidates.
-- **Interview Management**: Schedule interviews for shortlisted candidates and manage timings.
-- **Feedback Provision**: Provide professional feedback to students after the interview process.
-- **Candidate Tracking**: Maintain a history of all applicants and their progress.
+- **Job Posting**: Post and manage job openings with skill requirements and criteria.
+- **Application Review**: Review student applications, inspect profiles, and approve/reject candidates.
+- **Interview Scheduler**: Schedule interview slots, venues, and notify shortlisted candidates.
+- **Recruiter Feedback**: Provide post-interview feedback to students.
 
-### 🛡️ For Administrators
-- **User Management**: Oversee and manage student and company registrations.
-- **Job Oversight**: Monitor all active job postings and ensure quality control.
-- **Interview Coordination**: Track and manage interview schedules across the campus.
-- **Feedback Monitoring**: Review feedback given by companies to students.
-- **System Administration**: Manage the overall recruitment workflow and resolve disputes.
+### 🛡️ For University Administrators
+- **Comprehensive Management**: Oversee student directory, registered companies, job postings, and active interview workflows.
+- **System Quality Control**: Manage feedback, application metrics, and user accounts.
+
+---
 
 ## 🛠️ Technical Stack
 
-- **Language**: Java
-- **Platform**: Android SDK (Minimum API 24)
-- **Backend**: Firebase
-  - **Authentication**: Email/Password based secure login.
-  - **Realtime Database**: NoSQL cloud database for instant data synchronization.
-- **Architecture**: Activity-based navigation with custom Adapters for efficient list rendering.
-- **UI/UX**: Material Design components for a modern, intuitive user interface.
+- **Language**: Java & Modern Android Architecture
+- **AI Integration**: Google Generative AI API (`gemini-1.5-flash`) via OkHttp with intelligent local fallback engine
+- **Animations**: Custom 3D Matrix & Camera perspective transformations (`ThreeDCardHelper`)
+- **Platform**: Android SDK (Min API 24, Target API 35)
+- **Backend**: Firebase Authentication & Realtime Database
+- **UI/UX**: Material Design 3, Custom Vector Drawables, Adaptive Icons
 
-## 🚀 Getting Started
+---
 
-### Prerequisites
-- Android Studio (Latest version recommended)
-- A Firebase Account
-- Android Device or Emulator (API 24+)
+## 🚀 Installation & Setup
 
-### Installation for Developers
+### For Users
+1. Download [CampusApp.apk](./CampusApp.apk).
+2. Enable "Install from Unknown Sources" on your device if prompted.
+3. Tap the APK file to install and launch **Campus App**.
+
+### For Developers
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/abhireddy18/orbitly-campus-recruitment-system.git
    ```
 2. **Open in Android Studio**:
-   - Import the project as a Gradle project.
-3. **Firebase Setup**:
-   - Create a project at [Firebase Console](https://console.firebase.google.com/).
-   - Add an Android app with package name: `com.example.crs2025`.
-   - Download `google-services.json` and place it in the `app/` directory.
-   - Enable **Email/Password Authentication**.
-   - Create a **Realtime Database** and set rules to allow authenticated access.
-4. **Build & Run**:
+   - Open as Gradle Project.
+3. **Build & Run**:
    ```bash
    ./gradlew assembleDebug
-   ./gradlew installDebug
    ```
 
-### Installation for Users
-1. Download the latest release APK from the [GitHub Releases](https://github.com/abhireddy18/orbitly-campus-recruitment-system/releases) page.
-2. Enable "Install from Unknown Sources" in your Android device settings.
-3. Install the APK and launch the app.
-
-## 🔑 Admin Access Configuration
-Admin access is restricted and cannot be granted through the app registration. It requires a custom Firebase Auth claim.
-
-**To grant admin access:**
-Use the Firebase Admin SDK to set a custom claim for the specific user UID:
-```javascript
-admin.auth().setCustomUserClaims(uid, { admin: true });
-```
-Users with this claim will be automatically redirected to the `AdminDashboardActivity` upon login.
-
-## 📂 Project Structure
-```text
-app/
-├── src/
-│   └── main/
-│       ├── java/com/example/crs2025/
-│       │   ├── activities/        # Entry points (Login, Register)
-│       │   ├── adapters/          # RecyclerView adapters for lists
-│       │   ├── admin/             # Admin-specific management activities
-│       │   ├── company/           # Company-specific features
-│       │   ├── student/           # Student-specific features
-│       │   ├── dashboards/        # Role-based home screens
-│       │   └── models/            # Data POJOs (User, Job, Interview, etc.)
-│       └── res/                   # Layouts, Drawables, and Values
-└── build.gradle.kts               # Build configuration
-```
+---
 
 ## 📜 License
-This project is available for educational and research purposes. Please refer to the license file for more details.
+Available for educational and deployment purposes.

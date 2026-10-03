@@ -42,6 +42,14 @@
             android:text="HIRING TOOLS" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGeminiAi"
+            style="@style/DashboardButtonStyle"
+            android:text="✨ Gemini AI Interview &amp; Hiring Assistant"
+            app:backgroundTint="@color/brand_lime"
+            android:textColor="@color/brand_ink"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPostJob"
             style="@style/DashboardButtonStyle"
             android:text="Post Job"

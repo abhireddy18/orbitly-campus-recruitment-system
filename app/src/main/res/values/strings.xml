@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Orbitly</string>
+    <string name="app_name">Campus App</string>
         <string-array name="roles">
             <item>Admin</item>
             <item>Student</item>

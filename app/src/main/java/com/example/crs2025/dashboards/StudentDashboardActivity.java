@@ -48,6 +48,7 @@ public class StudentDashboardActivity extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference("users").child("students").child(studentId);
 
         tvWelcome = findViewById(R.id.tvWelcome);
+        Button btnGeminiAi = findViewById(R.id.btnGeminiAi);
         btnSearchJob = findViewById(R.id.btnSearchJob);
         btnSavedJobs = findViewById(R.id.btnSavedJobs);
         btnApplyJob = findViewById(R.id.btnApplyJob);
@@ -63,6 +64,10 @@ public class StudentDashboardActivity extends AppCompatActivity {
             startActivity(new Intent(StudentDashboardActivity.this, LoginActivity.class));
             finish();
         });
+
+        if (btnGeminiAi != null) {
+            btnGeminiAi.setOnClickListener(v -> startActivity(new Intent(StudentDashboardActivity.this, com.example.crs2025.activities.GeminiAiAssistantActivity.class)));
+        }
 
         // Setting up button listeners for activities
         btnSearchJob.setOnClickListener(v -> {

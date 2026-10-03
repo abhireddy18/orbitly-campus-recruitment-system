@@ -26,6 +26,7 @@
 
         <activity android:name=".activities.LoginActivity"/>
         <activity android:name=".activities.RegisterActivity"/>
+        <activity android:name=".activities.GeminiAiAssistantActivity"/>
 
         <activity android:name=".dashboards.AdminDashboardActivity"/>
         <activity android:name=".dashboards.StudentDashboardActivity"/>

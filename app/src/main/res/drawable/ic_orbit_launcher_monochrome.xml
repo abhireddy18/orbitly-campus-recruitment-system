@@ -4,14 +4,39 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path
-        android:fillColor="#FFFFFFFF"
-        android:pathData="M54,21a8,8 0 1 0 0,16a8,8 0 1 0 0,-16M34,61a8,8 0 1 0 0,16a8,8 0 1 0 0,-16M74,61a8,8 0 1 0 0,16a8,8 0 1 0 0,-16" />
+
+    <!-- Stylized 'C' Ribbon Arc -->
     <path
         android:fillColor="#00000000"
-        android:pathData="M50,36L39,60M58,36L69,60M42,69H66"
+        android:pathData="M 72,34 C 67,28 59,25 50,26 C 36,28 26,40 26,54 C 26,68 36,80 50,82 C 60,83 68,79 73,73"
         android:strokeColor="#FFFFFFFF"
         android:strokeLineCap="round"
-        android:strokeLineJoin="round"
         android:strokeWidth="5" />
+
+    <!-- Graduation Cap Roof -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M 54,32 L 76,41 L 54,50 L 32,41 Z" />
+
+    <!-- Cap Base -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M 40,46.5 L 40,55 C 40,60 68,60 68,55 L 68,46.5 Z" />
+
+    <!-- Tassel -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M 70,41.5 L 75,48 L 75,58"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="2.5" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M 73.5,58 h 3 v 4 h -3 z" />
+
+    <!-- Campus Pillars -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M 42,62 h 5 v 15 h -5 z M 51,59 h 6 v 18 h -6 z M 60,62 h 5 v 15 h -5 z" />
+
 </vector>

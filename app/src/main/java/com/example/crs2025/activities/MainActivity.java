@@ -8,9 +8,10 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.crs2025.R;
+import com.example.crs2025.utils.ThreeDCardHelper;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnLogin, btnRegister;
+    private Button btnLogin, btnRegister, btnGeminiAi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +31,20 @@ public class MainActivity extends AppCompatActivity {
             .alpha(1f)
             .translationY(0f)
             .setDuration(700)
+            .withEndAction(() -> {
+                // Enable 3D Touch Tilt interactivity after entry animation
+                ThreeDCardHelper.enable3DTouchTilt(hero);
+            })
             .start();
 
         btnLogin = findViewById(R.id.btn_login);
         btnRegister = findViewById(R.id.btn_register);
-
+        btnGeminiAi = findViewById(R.id.btn_gemini_ai);
 
         btnLogin.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, LoginActivity.class)));
         btnRegister.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, RegisterActivity.class)));
+        if (btnGeminiAi != null) {
+            btnGeminiAi.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, GeminiAiAssistantActivity.class)));
+        }
     }
-
 }

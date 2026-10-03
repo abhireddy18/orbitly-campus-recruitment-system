@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="ORBITLY / CAREER NETWORK"
+            android:text="CAMPUS APP / CAREER NETWORK"
             android:textColor="@color/brand_teal_dark"
             android:textSize="13sp"
             android:textStyle="bold" />
@@ -79,6 +79,19 @@
             android:textSize="16sp"
             app:backgroundTint="@color/brand_teal"
             app:cornerRadius="14dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_gemini_ai"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="10dp"
+            android:text="✨ Gemini AI Career Assistant"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@color/surface_variant"
+            app:cornerRadius="14dp"
+            app:strokeColor="@color/brand_teal"
+            app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_register"

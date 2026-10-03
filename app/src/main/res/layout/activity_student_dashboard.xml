@@ -43,6 +43,14 @@
             android:text="CAREER TOOLS" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGeminiAi"
+            style="@style/DashboardButtonStyle"
+            android:text="✨ Gemini AI Assistant &amp; Resume Reviewer"
+            app:backgroundTint="@color/brand_lime"
+            android:textColor="@color/brand_ink"
+            app:cornerRadius="12dp" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSearchJob"
             style="@style/DashboardButtonStyle"
             android:text="Search Job"
