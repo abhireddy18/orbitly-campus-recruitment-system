@@ -61,8 +61,27 @@ public class ApplicationDetailsActivity extends AppCompatActivity {
                 tvBranch.setText(application.getBranch());
                 tvCgpa.setText(application.getCgpa());
                 tvReason.setText(application.getReasonToApply());
-                tvResume.setText(application.getResumeLink());
                 tvStatus.setText(application.getStatus());
+
+                String resumeUrl = application.getResumeLink();
+                if (resumeUrl != null && !resumeUrl.trim().isEmpty()) {
+                    tvResume.setText("📄 " + resumeUrl + " (Tap to open)");
+                    tvResume.setTextColor(androidx.core.content.ContextCompat.getColor(this, R.color.brand_teal));
+                    tvResume.setOnClickListener(v -> {
+                        String url = resumeUrl.trim();
+                        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                            url = "https://" + url;
+                        }
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, android.net.Uri.parse(url));
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            android.widget.Toast.makeText(this, "Unable to open resume link: " + e.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    tvResume.setText("No resume link provided");
+                }
             }
         }).addOnFailureListener(e -> tvJobTitle.setText("Error loading details"));
     }
