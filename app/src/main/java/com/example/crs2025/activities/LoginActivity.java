@@ -17,8 +17,10 @@ import com.example.crs2025.R;
 import com.example.crs2025.dashboards.AdminDashboardActivity;
 import com.example.crs2025.dashboards.CompanyDashboardActivity;
 import com.example.crs2025.dashboards.StudentDashboardActivity;
+import com.example.crs2025.models.User;
+import com.example.crs2025.utils.CampusDatabaseHelper;
+import com.example.crs2025.utils.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -27,6 +29,8 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private String selectedRole = "Student"; // Default role
 
+    private CampusDatabaseHelper dbHelper;
+    private SessionManager sessionManager;
     private FirebaseAuth mAuth;
 
     @Override
@@ -34,12 +38,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        dbHelper = CampusDatabaseHelper.getInstance(this);
+        sessionManager = new SessionManager(this);
+        try {
+            mAuth = FirebaseAuth.getInstance();
+        } catch (Exception ignored) {}
+
         etEmail = findViewById(R.id.et_email);
         etPassword = findViewById(R.id.et_password);
         spinnerRole = findViewById(R.id.spinner_role);
         btnLogin = findViewById(R.id.btn_login);
-
-        mAuth = FirebaseAuth.getInstance();
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.login_roles, android.R.layout.simple_spinner_item);
@@ -68,38 +76,44 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user == null) {
-                            return;
-                        }
+        // 1. Check Local Android Studio Database first
+        User user = dbHelper.loginUser(email, password, selectedRole);
+        if (user != null) {
+            sessionManager.createLoginSession(user.getId(), user.getName(), user.getEmail(), selectedRole);
+            Toast.makeText(this, "Welcome " + user.getName(), Toast.LENGTH_SHORT).show();
+            navigateToDashboard(selectedRole);
+            return;
+        }
 
-                        if ("Admin".equals(selectedRole)) {
-                            user.getIdToken(true).addOnCompleteListener(this, tokenTask -> {
-                                boolean isAdmin = tokenTask.isSuccessful()
-                                        && Boolean.TRUE.equals(tokenTask.getResult().getClaims().get("admin"));
-                                if (isAdmin) {
-                                    startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
-                                    finish();
-                                } else {
-                                    mAuth.signOut();
-                                    Toast.makeText(this, "This account is not authorized for admin access.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            return;
+        // 2. Fallback to Firebase Auth if available
+        if (mAuth != null) {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            sessionManager.createLoginSession(
+                                    mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getUid() : "user_101",
+                                    email.split("@")[0],
+                                    email,
+                                    selectedRole
+                            );
+                            navigateToDashboard(selectedRole);
+                        } else {
+                            Toast.makeText(this, "Login failed. Check your credentials or select correct role.", Toast.LENGTH_SHORT).show();
                         }
+                    });
+        } else {
+            Toast.makeText(this, "Invalid credentials for role: " + selectedRole, Toast.LENGTH_SHORT).show();
+        }
+    }
 
-                        if ("Student".equals(selectedRole)) {
-                            startActivity(new Intent(LoginActivity.this, StudentDashboardActivity.class));
-                        } else if ("Company".equals(selectedRole)) {
-                            startActivity(new Intent(LoginActivity.this, CompanyDashboardActivity.class));
-                        }
-                        finish();
-                    } else {
-                        Toast.makeText(this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+    private void navigateToDashboard(String role) {
+        if ("Admin".equalsIgnoreCase(role)) {
+            startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
+        } else if ("Company".equalsIgnoreCase(role)) {
+            startActivity(new Intent(LoginActivity.this, CompanyDashboardActivity.class));
+        } else {
+            startActivity(new Intent(LoginActivity.this, StudentDashboardActivity.class));
+        }
+        finish();
     }
 }

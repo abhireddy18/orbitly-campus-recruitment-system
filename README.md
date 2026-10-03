@@ -1,6 +1,6 @@
 # 🎓 Campus App - Campus Recruitment System
 
-**Campus App** is a next-generation Android application designed to streamline campus recruitment. Featuring **Gemini 1.5 Flash AI** integration and **Interactive 3D Card Animations**, it bridges students, top hiring companies, and university administrators on a modern platform.
+**Campus App** is a next-generation Android application designed to streamline campus recruitment. Built with an **Android Studio Native SQLite Local Database**, **Gemini 1.5 Flash AI** integration, and **Interactive 3D Card Animations**, it seamlessly bridges students, top hiring companies, and university administrators.
 
 ---
 
@@ -9,6 +9,17 @@
 Anyone can download and install the app directly on an Android device (API 24+):
 
 👉 **[Download CampusApp.apk](./CampusApp.apk)**
+
+---
+
+## 💾 Built-in Android Studio Local SQLite Database
+
+- **100% Zero-Configuration Local Database**: Powered by Android's native `SQLiteOpenHelper` (`CampusDatabaseHelper.java`). No external cloud configuration or API credentials required!
+- **Instant Pre-Populated Accounts for Immediate Testing**:
+  - **Admin Login**: `admin@campus.com` | Password: `admin`
+  - **Student Login**: `abhishekgb644@gmail.com` | Password: `password123`
+  - **Company Login**: `recruitment@google.com` | Password: `password123`
+- **Offline Reliability**: Data is saved locally on device in SQLite DB tables (`users`, `jobs`, `applications`, `interviews`, `feedbacks`).
 
 ---
 
@@ -28,28 +39,26 @@ Anyone can download and install the app directly on an Android device (API 24+):
 ### 🧑‍🎓 For Students
 - **Job Search & Discovery**: Filter and search live job openings posted by top recruiters.
 - **1-Click Application & Tracking**: Apply with built-in profiles and track application progress in real-time.
+- **Interactive Resume Links**: Tapping resume links directly launches candidate resumes (Google Drive, PDFs, or web links) in browser/viewers.
 - **Interview Tracker**: Keep track of scheduled interview dates, times, venues, and types.
-- **Bookmarks**: Save preferred jobs for quick access later.
 
 ### 🏢 For Employers (Companies)
 - **Job Posting**: Post and manage job openings with skill requirements and criteria.
 - **Application Review**: Review student applications, inspect profiles, and approve/reject candidates.
 - **Interview Scheduler**: Schedule interview slots, venues, and notify shortlisted candidates.
-- **Recruiter Feedback**: Provide post-interview feedback to students.
 
 ### 🛡️ For University Administrators
 - **Comprehensive Management**: Oversee student directory, registered companies, job postings, and active interview workflows.
-- **System Quality Control**: Manage feedback, application metrics, and user accounts.
 
 ---
 
 ## 🛠️ Technical Stack
 
+- **Database Engine**: Built-in Android Studio Native SQLite (`CampusDatabaseHelper.java`) & Session Manager (`SessionManager.java`)
 - **Language**: Java & Modern Android Architecture
 - **AI Integration**: Google Generative AI API (`gemini-1.5-flash`) via OkHttp with intelligent local fallback engine
 - **Animations**: Custom 3D Matrix & Camera perspective transformations (`ThreeDCardHelper`)
 - **Platform**: Android SDK (Min API 24, Target API 35)
-- **Backend**: Firebase Authentication & Realtime Database
 - **UI/UX**: Material Design 3, Custom Vector Drawables, Adaptive Icons
 
 ---
